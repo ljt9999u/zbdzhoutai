@@ -11,6 +11,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.JwtUtil;
 import com.example.demo.utils.Md5Util;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private RoleMapper roleMapper;
-    @Resource
+    @Autowired
     private UserMapper userMapper;
     @Resource
     private RoleService roleService;
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
         System.out.println("角色验证通过：" + role.getRoleName());
 
         // 2. 查询用户
-        // System.out.println("开始查询用户：phone=" + loginDTO.getPhone());
+         System.out.println("开始查询用户：phone=" + loginDTO.getPhone());
         User user = userMapper.selectUserByPhone(loginDTO.getPhone());
         if (user == null) {
             System.out.println("用户不存在：phone=" + loginDTO.getPhone());
@@ -79,10 +80,37 @@ public class UserServiceImpl implements UserService {
         System.out.println("登录成功，生成Token：" + token);
         return token;
     }
+
+    //注册接口
     @Override
     public boolean register(RegisterDTO registerDTO) {
-        return false;
-    }
+        // 1. 验证角色是否存在
+        Role role = roleService.getByRoleCode(registerDTO.getRoleCode());
+        if (role == null) {
+            throw new RuntimeException("角色不存在");
+        }
 
+        // 2. 检查手机号是否已注册
+        System.out.println("开始检查手机号是否已注册：" + registerDTO.getPhone());
+        User existUser = userMapper.selectUserByPhone(registerDTO.getPhone());
+        System.out.println("查询结果：" + (existUser != null ? "用户已存在" : "用户不存在"));
+        if (existUser != null) {
+            System.out.println("手机号已被注册，抛出异常");
+            throw new RuntimeException("手机号已被注册");
+        }
+        System.out.println("手机号检查通过，可以注册");
+
+        // 3. 密码加密并保存用户
+        User user = new User();
+        user.setPhone(registerDTO.getPhone());
+        user.setPassword(Md5Util.getMD5String(registerDTO.getPassword())); // MD5加密存储
+        user.setRoleCode(registerDTO.getRoleCode());
+        user.setNickname(registerDTO.getNickname());
+        user.setStatus(1); // 1-启用状态
+        user.setCreateTime(new Date());
+
+        userMapper.insertUser(user);
+        return true;
+    }
 
 }

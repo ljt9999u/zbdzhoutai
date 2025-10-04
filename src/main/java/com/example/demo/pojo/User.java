@@ -1,7 +1,9 @@
 package com.example.demo.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -18,4 +20,19 @@ public class User {
     private String nickname;
     private Integer status;
     private Date createTime;
+    
+    // 无参构造函数
+    public User() {
+    }
+    
+    // 全参构造函数
+    public User(Long id, String phone, String password, String roleCode, String nickname, Integer status, Date createTime) {
+        this.id = id;
+        this.phone = phone;
+        this.password = password;
+        this.roleCode = roleCode;
+        this.nickname = nickname;
+        this.status = status;
+        this.createTime = createTime;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 import com.example.demo.pojo.LoginDTO;
+import com.example.demo.pojo.RegisterDTO;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.ThreadLocalUtil;
 import jakarta.annotation.Resource;
@@ -34,6 +35,22 @@ public class UserController{
         }
 
         return result;
+    }
+
+    //注册接口
+    @PostMapping("/register")
+    public Map<String , Object> register(@RequestBody RegisterDTO registerDTO){
+        Map<String,Object> result = new HashMap<>();
+      try {
+
+          boolean success  = userService.register(registerDTO);
+          result.put("code", 200);
+          result.put("msg", "注册成功");
+      }catch (Exception e) {
+          result.put("code", 400);
+          result.put("msg", e.getMessage());
+      }
+      return result;
     }
 
 //        进行测试打印各项数据进行查看错误
