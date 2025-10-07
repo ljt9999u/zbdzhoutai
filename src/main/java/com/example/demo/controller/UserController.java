@@ -3,6 +3,7 @@ import com.example.demo.pojo.LoginDTO;
 import com.example.demo.pojo.RegisterDTO;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.ThreadLocalUtil;
+import com.example.demo.utils.JwtUtil;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,14 @@ public class UserController{
             result.put("code", 200);
             result.put("msg", "登录成功");
             result.put("token", token);
+            // 从token中解析并返回用户ID
+            Map<String, Object> claims = JwtUtil.parseToken(token);
+            Object userIdObj = claims.get("userId");
+            if (userIdObj instanceof Number) {
+                result.put("userId", ((Number) userIdObj).longValue());
+            } else if (userIdObj != null) {
+                result.put("userId", userIdObj.toString());
+            }
         } catch (Exception e) {
             result.put("code", 400);
             result.put("msg", e.getMessage());
