@@ -65,4 +65,20 @@ public class CustomizedDemand implements Serializable {
      * 备注信息（可选）
      */
     private String remark;
+    /**
+     * 定制尺寸（如S/M/L或具体数值）
+     */
+    private String size;
+    /**
+     * 定制材质（如黄金/实木/陶瓷等）
+     */
+    private String material;
+    /**
+     * 定制颜色（如红色/#FF0000）
+     */
+    private String color;
+    /**
+     * 定制风格（如复古/简约/欧式等）
+     */
+    private String style;
 }

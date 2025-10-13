@@ -110,19 +110,4 @@ public interface MaintenanceRecordMapper {
         @Result(property = "updateTime", column = "update_time")
     })
     List<MaintenanceRecord> selectAll();
-    
-    /**
-     * 查询保养记录总数
-     * @return 总记录数
-     */
-    @Select("SELECT COUNT(*) FROM maintenance_records")
-    long countAll();
-    
-    /**
-     * 根据用户ID查询保养记录总数
-     * @param userId 用户ID
-     * @return 总记录数
-     */
-    @Select("SELECT COUNT(*) FROM maintenance_records WHERE user_id = #{userId}")
-    long countByUserId(Long userId);
 }

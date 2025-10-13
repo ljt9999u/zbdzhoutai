@@ -66,3 +66,8 @@ public class PageResult<T> {
         this.hasPrevious = pageNum > 1;
     }
 }
+
+
+
+
+
