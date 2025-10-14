@@ -1,17 +1,17 @@
 package com.example.demo.controller;
 import com.example.demo.pojo.LoginDTO;
 import com.example.demo.pojo.RegisterDTO;
+import com.example.demo.pojo.UpdateUserBasicDTO;
+import com.example.demo.pojo.User;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.ThreadLocalUtil;
 import com.example.demo.utils.JwtUtil;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -103,6 +103,55 @@ public class UserController{
 //        }
 //        return result;
 //    }
+
+    // 通过角色编码=1 查询用户（仅返回电话、昵称、创建时间）
+    @GetMapping("/by-role")
+    public Map<String, Object> getUsersByRole(@RequestParam(defaultValue = "1") String roleCode) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<User> users = userService.getUsersByRoleCode(roleCode);
+            result.put("code", 200);
+            result.put("data", users);
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("msg", e.getMessage());
+        }
+        return result;
+    }
+
+    // 编辑用户基础信息（电话、昵称）
+    @PutMapping("/basic")
+    public Map<String, Object> updateUserBasic(@RequestBody UpdateUserBasicDTO dto) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            User user = new User();
+            user.setId(dto.getId());
+            user.setPhone(dto.getPhone());
+            user.setNickname(dto.getNickname());
+            boolean success = userService.updateUserBasic(user);
+            result.put("code", success ? 200 : 400);
+            result.put("msg", success ? "更新成功" : "更新失败");
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("msg", e.getMessage());
+        }
+        return result;
+    }
+
+    // 根据ID删除用户
+    @DeleteMapping("/{id}")
+    public Map<String, Object> deleteUser(@PathVariable("id") Long id) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            boolean success = userService.deleteUserById(id);
+            result.put("code", success ? 200 : 400);
+            result.put("msg", success ? "删除成功" : "删除失败");
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("msg", e.getMessage());
+        }
+        return result;
+    }
 
     // 退出登录（清除ThreadLocal数据）
     @PostMapping("/logout")

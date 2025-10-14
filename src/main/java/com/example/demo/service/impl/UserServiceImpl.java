@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -111,6 +112,21 @@ public class UserServiceImpl implements UserService {
 
         userMapper.insertUser(user);
         return true;
+    }
+
+    @Override
+    public List<User> getUsersByRoleCode(String roleCode) {
+        return userMapper.selectUsersByRoleCode(roleCode);
+    }
+
+    @Override
+    public boolean updateUserBasic(User user) {
+        return userMapper.updateUserBasic(user) > 0;
+    }
+
+    @Override
+    public boolean deleteUserById(Long id) {
+        return userMapper.deleteUserById(id) > 0;
     }
 
 }
