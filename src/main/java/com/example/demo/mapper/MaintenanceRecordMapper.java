@@ -17,7 +17,7 @@ public interface MaintenanceRecordMapper {
      * @return 影响行数
      */
     @Insert("INSERT INTO maintenance_records (user_id, product_name, product_code, maintenance_type, maintenance_date, description, images, status, create_time, update_time) " +
-            "VALUES (#{userId}, #{productName}, #{productCode}, #{maintenanceType}, #{maintenanceDate}, #{description}, #{images, typeHandler=com.example.demo.config.JsonTypeHandler}, #{status}, #{createTime}, #{updateTime})")
+            "VALUES (#{userId}, #{productName}, #{productCode}, #{maintenanceType}, #{maintenanceDate}, #{description}, #{images, typeHandler=com.example.demo.config.JsonTypeHandler}, 0, #{createTime}, #{updateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MaintenanceRecord maintenanceRecord);
     
@@ -81,6 +81,15 @@ public interface MaintenanceRecordMapper {
      */
     @Delete("DELETE FROM maintenance_records WHERE id = #{id}")
     int deleteById(Long id);
+    
+    /**
+     * 单独更新保养记录状态
+     * @param id 保养记录ID
+     * @param status 新状态（1待处理 2处理中 3已完成）
+     * @return 影响行数
+     */
+    @Update("UPDATE maintenance_records SET status = #{status}, update_time = NOW() WHERE id = #{id}")
+    int updateStatus(@Param("id") Long id, @Param("status") Integer status);
     
     /**
      * 更新保养记录的图片信息

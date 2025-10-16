@@ -359,4 +359,29 @@ public class MaintenanceRecordController {
         }
         return result;
     }
+
+    /**
+     * 更新保养记录状态
+     * @param id 保养记录ID
+     * @param status 新状态（1待处理 2处理中 3已完成）
+     * @return 响应结果
+     */
+    @PutMapping("/{id}/status")
+    public Map<String, Object> updateMaintenanceRecordStatus(@PathVariable Long id, @RequestParam Integer status) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            boolean success = maintenanceRecordService.updateMaintenanceRecordStatus(id, status);
+            if (success) {
+                result.put("code", 200);
+                result.put("msg", "保养记录状态更新成功");
+            } else {
+                result.put("code", 400);
+                result.put("msg", "保养记录状态更新失败");
+            }
+        } catch (Exception e) {
+            result.put("code", 500);
+            result.put("msg", "状态更新失败：" + e.getMessage());
+        }
+        return result;
+    }
 }

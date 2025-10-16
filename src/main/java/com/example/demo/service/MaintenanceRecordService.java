@@ -83,4 +83,12 @@ public interface MaintenanceRecordService {
      * @return 分页结果
      */
     com.example.demo.pojo.PageResult<MaintenanceRecord> getMaintenanceRecordsByUserIdWithPage(Long userId, int pageNum, int pageSize);
+
+    /**
+     * 更新保养记录状态
+     * @param id 保养记录ID
+     * @param status 新状态（1待处理 2处理中 3已完成）
+     * @return 是否成功
+     */
+    boolean updateMaintenanceRecordStatus(Long id, Integer status);
 }

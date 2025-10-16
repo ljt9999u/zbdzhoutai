@@ -80,6 +80,20 @@ public class MaintenanceRecordServiceImpl implements MaintenanceRecordService {
     }
     
     @Override
+    public boolean updateMaintenanceRecordStatus(Long id, Integer status) {
+        try {
+            // 合法性简单校验（允许 1、2、3）
+            if (status == null || status < 1 || status > 3) {
+                return false;
+            }
+            return maintenanceRecordMapper.updateStatus(id, status) > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public List<String> uploadImages(Long id, MultipartFile[] files) {
         List<String> imageUrls = new ArrayList<>();
         
