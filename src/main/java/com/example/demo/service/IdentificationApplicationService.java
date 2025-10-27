@@ -8,4 +8,6 @@ public interface IdentificationApplicationService {
     void submit(IdentificationApplication application);
 
     List<IdentificationApplication> listAll();
+
+    void updateStatus(IdentificationApplication application);
 }

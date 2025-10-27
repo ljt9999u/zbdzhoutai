@@ -23,4 +23,9 @@ public class IdentificationApplicationServiceImpl implements IdentificationAppli
     public List<IdentificationApplication> listAll() {
         return identificationApplicationMapper.selectAll();
     }
+
+    @Override
+    public void updateStatus(IdentificationApplication application) {
+        identificationApplicationMapper.updateStatus(application);
+    }
 }

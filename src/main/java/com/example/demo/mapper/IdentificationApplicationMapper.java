@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -48,4 +49,16 @@ public interface IdentificationApplicationMapper {
             @Result(column = "remark", property = "remark")
     })
     List<IdentificationApplication> selectAll();
+
+    // 更新申请状态
+    @Update("<script>" +
+            "update identification_applications " +
+            "set status = #{status}, " +
+            "update_time = #{updateTime}, " +
+            "<if test='assignedTime != null'>assigned_time = #{assignedTime},</if>" +
+            "<if test='completedTime != null'>completed_time = #{completedTime},</if>" +
+            "remark = #{remark} " +
+            "where id = #{id}" +
+            "</script>")
+    void updateStatus(IdentificationApplication application);
 }
