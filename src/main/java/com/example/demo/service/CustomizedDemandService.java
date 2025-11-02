@@ -4,8 +4,8 @@ import com.example.demo.pojo.CustomizedDemand;
 import java.util.List;
 
 public interface CustomizedDemandService {
-    //添加需求
-    void addDemand(CustomizedDemand customizedDemand);
+    //添加需求（返回创建后的需求对象，包含自增ID）
+    CustomizedDemand addDemand(CustomizedDemand customizedDemand);
     
     //查询所有需求
     List<CustomizedDemand> getAllDemands();

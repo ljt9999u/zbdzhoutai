@@ -9,7 +9,12 @@ spring:
       host: localhost
       port: 6379
 
-
+file:
+  upload:
+    base-path: D:\houtaifile  # 本地存储根目录（Linux示例）
+    # base-path: D:/customized_files  # Windows示例
+    allowed-types: image/jpeg,image/png,image/gif,application/pdf  # 允许的文件类型
+    max-size: 10485760  # 单个文件最大10MB（单位：字节）
 
 #spring:
 #  datasource:

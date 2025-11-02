@@ -15,8 +15,10 @@ public class CustomizedDemandServiceImpl implements CustomizedDemandService {
     private CustomizedDemandMapper customizedDemandMapper;
     
     @Override
-    public void addDemand(CustomizedDemand customizedDemand) {
+    public CustomizedDemand addDemand(CustomizedDemand customizedDemand) {
         customizedDemandMapper.addDemand(customizedDemand);
+        // addDemand执行后，id会被自动填充到customizedDemand对象中（通过@Options注解）
+        return customizedDemand;
     }
     
     @Override

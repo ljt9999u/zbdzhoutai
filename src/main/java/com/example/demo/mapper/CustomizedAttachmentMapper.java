@@ -26,6 +26,16 @@ public interface CustomizedAttachmentMapper {
     // 批量逻辑删除（按需求ID）
     @Update("UPDATE customized_attachments SET is_deleted = 1 WHERE demand_id = #{demandId} AND is_deleted = 0")
     int logicalDeleteByDemandId(@Param("demandId") Integer demandId);
+
+    // 根据附件ID查询单个附件（用于更新前获取原文件路径）
+    @Select("SELECT id, demand_id, file_name, file_path, file_size, file_type, create_time, is_deleted " +
+            "FROM customized_attachments WHERE id = #{id} AND is_deleted = 0")
+    CustomizedAttachment selectById(@Param("id") Integer id);
+
+    // 更新附件信息（用于文件替换）
+    @Update("UPDATE customized_attachments SET file_name = #{fileName}, file_path = #{filePath}, " +
+            "file_size = #{fileSize}, file_type = #{fileType} WHERE id = #{id} AND is_deleted = 0")
+    int update(CustomizedAttachment attachment);
 }
 
 

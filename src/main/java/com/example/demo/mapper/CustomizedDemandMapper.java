@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface CustomizedDemandMapper {
-    //添加需求
+    //添加需求（返回自增ID并填充到对象中）
     @Insert("insert into customized_demands(" +
             "user_id, title, category, budget, deadline, " +
             "description, contact_name, contact_phone, status, remark, " +
@@ -17,7 +17,8 @@ public interface CustomizedDemandMapper {
             "#{description}, #{contactName}, #{contactPhone}, 0, #{remark}, " +
             "#{size}, #{material}, #{color}, #{style}" +
             ")")
-    void addDemand(CustomizedDemand customizedDemand);
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int addDemand(CustomizedDemand customizedDemand);
 
     //查询所有需求
     @Select("select id, user_id, title, category, budget, deadline, " +
