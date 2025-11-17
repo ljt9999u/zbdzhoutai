@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/zbdz?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/zbdz?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: 123456
   data:
@@ -29,4 +29,16 @@ server:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+    allowed-origin-patterns: [] # 需要时可填如 http://localhost:*
+    allowed-methods:
+      - '*'
+    allowed-headers:
+      - '*'
+    allow-credentials: true
+    max-age: 3600
 

@@ -7,6 +7,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.utils.ThreadLocalUtil;
 import com.example.demo.utils.JwtUtil;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController{
     @Resource
     private UserService userService;
@@ -24,6 +26,7 @@ public class UserController{
     public Map<String, Object> login(@RequestBody LoginDTO loginDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
+            log.info("收到登录请求, phone={}, roleCode={}", loginDTO.getPhone(), loginDTO.getRoleCode());
             String token = userService.login(loginDTO);
             // 登录成功后，将用户信息存入ThreadLocal（可选，方便后续接口获取当前用户）
             ThreadLocalUtil.set(loginDTO.getPhone());
@@ -39,6 +42,7 @@ public class UserController{
                 result.put("userId", userIdObj.toString());
             }
         } catch (Exception e) {
+            log.error("登录失败, 请求参数: {}", loginDTO, e);
             result.put("code", 400);
             result.put("msg", e.getMessage());
         }
