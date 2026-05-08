@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
 
     @Override
-    public String login(LoginDTO loginDTO) {
+    public String login(LoginDTO loginDTO){
         // 1. 验证角色
        //System.out.println("开始验证角色：roleCode=" + loginDTO.getRoleCode());
         Role role = roleService.getByRoleCode(loginDTO.getRoleCode());

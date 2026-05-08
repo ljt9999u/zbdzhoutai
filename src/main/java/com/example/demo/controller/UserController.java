@@ -109,7 +109,8 @@ public class UserController{
 //    }
 
     // 通过角色编码=1 查询用户（仅返回电话、昵称、创建时间）
-    @GetMapping("/by-role")
+    @GetMapping("/q" +
+            "")
     public Map<String, Object> getUsersByRole(@RequestParam(defaultValue = "1") String roleCode) {
         Map<String, Object> result = new HashMap<>();
         try {

@@ -25,6 +25,8 @@ file:
 
 server:
   port: 9096
+  address: 0.0.0.0
+  
 
 mybatis:
   configuration:

@@ -16,38 +16,23 @@ public class CorsConfig {
     public CorsFilter corsFilter(CorsProperties properties) {
         CorsConfiguration cfg = new CorsConfiguration();
 
-        if (!CollectionUtils.isEmpty(properties.getAllowedOrigins())) {
-            properties.getAllowedOrigins().forEach(cfg::addAllowedOrigin);
-        }
-        if (!CollectionUtils.isEmpty(properties.getAllowedOriginPatterns())) {
-            properties.getAllowedOriginPatterns().forEach(cfg::addAllowedOriginPattern);
-        }
+        // 允许所有来源
+        cfg.addAllowedOriginPattern("*");
 
-        // 如果都没配置，默认允许本地 5173 端口，方便开发
-        if (CollectionUtils.isEmpty(cfg.getAllowedOrigins())
-                && CollectionUtils.isEmpty(cfg.getAllowedOriginPatterns())) {
-            cfg.addAllowedOrigin("http://localhost:5173");
-        }
+        // 允许所有请求头
+        cfg.addAllowedHeader("*");
 
-        if (!CollectionUtils.isEmpty(properties.getAllowedHeaders())) {
-            properties.getAllowedHeaders().forEach(cfg::addAllowedHeader);
-        } else {
-            cfg.addAllowedHeader("*");
-        }
+        // 允许所有请求方法
+        cfg.addAllowedMethod("*");
 
-        if (!CollectionUtils.isEmpty(properties.getAllowedMethods())) {
-            properties.getAllowedMethods().forEach(cfg::addAllowedMethod);
-        } else {
-            cfg.addAllowedMethod("*");
-        }
+        // 允许携带凭证
+        cfg.setAllowCredentials(true);
 
-        cfg.setAllowCredentials(properties.isAllowCredentials());
-        cfg.setMaxAge(properties.getMaxAge());
+        // 预检请求的缓存时间（秒）
+        cfg.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cfg);
         return new CorsFilter(source);
     }
 }
-
-
